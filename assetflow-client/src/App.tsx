@@ -7,6 +7,8 @@ import { DashboardPage } from './pages/Dashboard/DashboardPage';
 import { OrganizationPage } from './pages/Organization/OrganizationPage';
 import { AssetDirectoryPage } from './pages/Assets/AssetDirectoryPage';
 import { AssetDetailPage } from './pages/Assets/AssetDetailPage';
+import { AllocationDashboardPage } from './pages/Allocations/AllocationDashboardPage';
+import { AllocationDetailPage } from './pages/Allocations/AllocationDetailPage';
 import { DashboardLayout } from './components/layout/DashboardLayout';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { PublicRoute } from './components/layout/PublicRoute';
@@ -39,6 +41,8 @@ function App() {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/assets" element={<AssetDirectoryPage />} />
               <Route path="/assets/:id" element={<AssetDetailPage />} />
+              <Route path="/allocations" element={<AllocationDashboardPage />} />
+              <Route path="/allocations/:id" element={<AllocationDetailPage />} />
               <Route path="/organization" element={<OrganizationPage />} />
               
               {/* Fallback sub-route redirects to dashboard */}

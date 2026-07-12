@@ -9,6 +9,10 @@ var AllocationStatus;
     AllocationStatus["RETURNED"] = "RETURNED";
     AllocationStatus["OVERDUE"] = "OVERDUE";
 })(AllocationStatus || (exports.AllocationStatus = AllocationStatus = {}));
+const AssetAllocationAttachmentSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    url: { type: String, required: true }
+}, { _id: false });
 const AssetAllocationSchema = new mongoose_1.Schema({
     asset: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Asset', required: true, index: true },
     employee: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
@@ -21,7 +25,9 @@ const AssetAllocationSchema = new mongoose_1.Schema({
         type: String,
         enum: Object.values(Asset_1.AssetCondition)
     },
+    purpose: { type: String, trim: true },
     notes: { type: String },
+    attachments: { type: [AssetAllocationAttachmentSchema], default: [] },
     status: {
         type: String,
         enum: Object.values(AllocationStatus),

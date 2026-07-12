@@ -5,15 +5,18 @@ const mongoose_1 = require("mongoose");
 var TransferStatus;
 (function (TransferStatus) {
     TransferStatus["PENDING"] = "PENDING";
-    TransferStatus["APPROVED"] = "APPROVED";
+    TransferStatus["DEPARTMENT_APPROVED"] = "DEPARTMENT_APPROVED";
+    TransferStatus["ASSET_MANAGER_APPROVED"] = "ASSET_MANAGER_APPROVED";
     TransferStatus["REJECTED"] = "REJECTED";
     TransferStatus["COMPLETED"] = "COMPLETED";
+    TransferStatus["CANCELLED"] = "CANCELLED";
 })(TransferStatus || (exports.TransferStatus = TransferStatus = {}));
 const TransferRequestSchema = new mongoose_1.Schema({
     asset: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Asset', required: true, index: true },
     requestedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     fromEmployee: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
     toEmployee: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
+    toDepartment: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Department' },
     reason: { type: String, required: true },
     approvalStatus: {
         type: String,

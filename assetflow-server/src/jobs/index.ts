@@ -1,2 +1,6 @@
-// Barrel export for backend cron jobs
-export {};
+import { startOverdueDetectionJob } from './overdueDetectionJob';
+
+export function initCronJobs() {
+  startOverdueDetectionJob();
+}
+

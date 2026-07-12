@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../sidebar/Sidebar';
 import { Navbar } from '../navbar/Navbar';
+import { useSocketSetup } from '../../hooks/useSocket';
 
 export function DashboardLayout() {
+  // Setup real-time WebSocket listeners
+  useSocketSetup();
+
   const [darkMode, setDarkMode] = useState(() => {
+
     return localStorage.getItem('theme') === 'dark' || 
       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });

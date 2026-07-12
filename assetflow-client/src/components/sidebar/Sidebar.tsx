@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LayoutDashboard, Building2, FolderKanban, Users, ShieldAlert,
   CalendarDays, Wrench, FileSpreadsheet, Bell, Settings, LogOut,
-  ChevronLeft, ChevronRight, Menu, ClipboardCheck, History
+  ChevronLeft, ChevronRight, Menu, ClipboardCheck, History, ArrowLeftRight
 } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 
@@ -28,7 +28,9 @@ export function Sidebar() {
   const menuItems: SidebarItem[] = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Assets Directory', path: '/assets', icon: FolderKanban },
+    { name: 'Asset Allocations', path: '/allocations', icon: ArrowLeftRight },
     { name: 'Organization Setup', path: '/organization', icon: Building2, roles: ['ADMIN'] },
+
     { name: 'Resource Bookings', path: '/bookings', icon: CalendarDays },
     { name: 'Maintenance', path: '/maintenance', icon: Wrench },
     { name: 'Auditing Campaigns', path: '/audit', icon: ClipboardCheck },

@@ -7,6 +7,11 @@ export enum AllocationStatus {
   OVERDUE = 'OVERDUE'
 }
 
+export interface IAssetAllocationAttachment {
+  name: string;
+  url: string;
+}
+
 export interface IAssetAllocation extends Document {
   asset: Types.ObjectId | any;
   employee: Types.ObjectId | any;
@@ -16,11 +21,18 @@ export interface IAssetAllocation extends Document {
   expectedReturn?: Date;
   returnedDate?: Date;
   returnCondition?: AssetCondition;
+  purpose?: string;
   notes?: string;
+  attachments?: IAssetAllocationAttachment[];
   status: AllocationStatus;
   createdAt: Date;
   updatedAt: Date;
 }
+
+const AssetAllocationAttachmentSchema = new Schema<IAssetAllocationAttachment>({
+  name: { type: String, required: true },
+  url: { type: String, required: true }
+}, { _id: false });
 
 const AssetAllocationSchema = new Schema<IAssetAllocation>(
   {
@@ -35,7 +47,9 @@ const AssetAllocationSchema = new Schema<IAssetAllocation>(
       type: String,
       enum: Object.values(AssetCondition)
     },
+    purpose: { type: String, trim: true },
     notes: { type: String },
+    attachments: { type: [AssetAllocationAttachmentSchema], default: [] },
     status: {
       type: String,
       enum: Object.values(AllocationStatus),
@@ -48,3 +62,4 @@ const AssetAllocationSchema = new Schema<IAssetAllocation>(
 
 export const AssetAllocation = model<IAssetAllocation>('AssetAllocation', AssetAllocationSchema);
 export { AssetAllocationSchema };
+

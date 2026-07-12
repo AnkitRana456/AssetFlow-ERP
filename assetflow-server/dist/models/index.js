@@ -27,3 +27,5 @@ __exportStar(require("./AuditCycle"), exports);
 __exportStar(require("./AuditItem"), exports);
 __exportStar(require("./Notification"), exports);
 __exportStar(require("./ActivityLog"), exports);
+__exportStar(require("./ReturnRequest"), exports);
+__exportStar(require("./AssetHistory"), exports);

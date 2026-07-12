@@ -17,4 +17,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./departmentController"), exports);
 __exportStar(require("./categoryController"), exports);
 __exportStar(require("./employeeController"), exports);
+__exportStar(require("./allocationController"), exports);
+__exportStar(require("./transferController"), exports);
+__exportStar(require("./returnController"), exports);
+__exportStar(require("./historyController"), exports);
 __exportStar(require("./assetController"), exports);

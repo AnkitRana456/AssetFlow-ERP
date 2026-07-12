@@ -2,9 +2,11 @@ import { Schema, model, Document, Types } from 'mongoose';
 
 export enum TransferStatus {
   PENDING = 'PENDING',
-  APPROVED = 'APPROVED',
+  DEPARTMENT_APPROVED = 'DEPARTMENT_APPROVED',
+  ASSET_MANAGER_APPROVED = 'ASSET_MANAGER_APPROVED',
   REJECTED = 'REJECTED',
-  COMPLETED = 'COMPLETED'
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
 }
 
 export interface ITransferRequest extends Document {
@@ -12,6 +14,7 @@ export interface ITransferRequest extends Document {
   requestedBy: Types.ObjectId | any;
   fromEmployee?: Types.ObjectId | any;
   toEmployee: Types.ObjectId | any;
+  toDepartment?: Types.ObjectId | any;
   reason: string;
   approvalStatus: TransferStatus;
   approvedBy?: Types.ObjectId | any;
@@ -27,6 +30,7 @@ const TransferRequestSchema = new Schema<ITransferRequest>(
     requestedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     fromEmployee: { type: Schema.Types.ObjectId, ref: 'User' },
     toEmployee: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    toDepartment: { type: Schema.Types.ObjectId, ref: 'Department' },
     reason: { type: String, required: true },
     approvalStatus: {
       type: String,
@@ -43,3 +47,4 @@ const TransferRequestSchema = new Schema<ITransferRequest>(
 
 export const TransferRequest = model<ITransferRequest>('TransferRequest', TransferRequestSchema);
 export { TransferRequestSchema };
+

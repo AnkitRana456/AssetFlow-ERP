@@ -11,3 +11,6 @@ export * from './AuditCycle';
 export * from './AuditItem';
 export * from './Notification';
 export * from './ActivityLog';
+export * from './ReturnRequest';
+export * from './AssetHistory';
+
