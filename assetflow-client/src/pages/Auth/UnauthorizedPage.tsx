@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 

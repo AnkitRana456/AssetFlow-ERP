@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -19,7 +19,7 @@ const categorySchema = z.object({
   name: z.string().min(1, 'Category Name is required').trim(),
   description: z.string().optional(),
   icon: z.string().default('package'),
-  maintenanceInterval: z.number({ invalid_type_error: 'Interval must be a number' }).min(1, 'Interval must be at least 1 day'),
+  maintenanceInterval: z.number().min(1, 'Interval must be at least 1 day'),
   status: z.enum(['ACTIVE', 'INACTIVE']).default('ACTIVE'),
   customFields: z.array(customFieldSchema).default([])
 });
@@ -45,19 +45,20 @@ export function CategoryTab() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Queries & Mutations
-  const { data, isLoading, refetch } = useCategories({ search, page, limit: 5 });
+  const { data, isLoading } = useCategories({ search, page, limit: 5 });
   const createMutation = useCreateCategory();
   const updateMutation = useUpdateCategory();
   const deleteMutation = useDeleteCategory();
 
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+    resolver: zodResolver(categorySchema) as any,
     defaultValues: {
       status: 'ACTIVE',
       icon: 'laptop',
       customFields: []
     }
   });
+
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -269,7 +270,7 @@ export function CategoryTab() {
                 </div>
               )}
 
-              <form id="cat-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <form id="cat-form" onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
                 {/* Name */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Category Name</label>

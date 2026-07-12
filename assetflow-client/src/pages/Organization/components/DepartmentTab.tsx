@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { 
   Plus, Search, Edit2, Trash2, X, AlertCircle, Building2, CheckCircle2, 
-  MapPin, Loader2, Sparkles, User, ArrowRightLeft, Power
+  Loader2, Sparkles, User, Power
 } from 'lucide-react';
+
 import { useDepartments, useCreateDepartment, useUpdateDepartment, useDeleteDepartment, useEmployees } from '../../../hooks/orgHooks';
 
 // Validation Schema
@@ -31,7 +32,7 @@ export function DepartmentTab() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Queries & Mutations
-  const { data, isLoading, refetch } = useDepartments({ search, status: statusFilter, page, limit: 5 });
+  const { data, isLoading } = useDepartments({ search, status: statusFilter, page, limit: 5 });
   const { data: employeeData } = useEmployees({ limit: 100 }); // for Head selection
   const { data: parentDepts } = useDepartments({ limit: 100 }); // for Parent selection
 
@@ -39,8 +40,8 @@ export function DepartmentTab() {
   const updateMutation = useUpdateDepartment();
   const deleteMutation = useDeleteDepartment();
 
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<DepartmentFormValues>({
-    resolver: zodResolver(departmentSchema),
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<DepartmentFormValues>({
+    resolver: zodResolver(departmentSchema) as any,
     defaultValues: { status: 'ACTIVE' }
   });
 
@@ -302,7 +303,7 @@ export function DepartmentTab() {
                 </div>
               )}
 
-              <form id="dept-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <form id="dept-form" onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
                 {/* Name */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Department Name</label>

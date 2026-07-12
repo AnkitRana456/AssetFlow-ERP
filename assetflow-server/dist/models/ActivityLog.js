@@ -15,4 +15,6 @@ const ActivityLogSchema = new mongoose_1.Schema({
     timestamps: { createdAt: true, updatedAt: false }
 });
 exports.ActivityLogSchema = ActivityLogSchema;
+// Optimize audit log dashboard historical queries and sort orders
+ActivityLogSchema.index({ module: 1, action: 1, createdAt: -1 });
 exports.ActivityLog = (0, mongoose_1.model)('ActivityLog', ActivityLogSchema);

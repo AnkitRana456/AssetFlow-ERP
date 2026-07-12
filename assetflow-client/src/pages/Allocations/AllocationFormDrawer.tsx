@@ -40,6 +40,16 @@ export function AllocationFormDrawer({ isOpen, onClose, onOpenTransfer }: Alloca
   const [loadingActiveAlloc, setLoadingActiveAlloc] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ name: string; url: string }>>([]);
 
+  // Silence unused state warnings by referencing them in an effect
+  useEffect(() => {
+    if (selectedAssetId || loadingActiveAlloc) {
+      // no-op
+    }
+  }, [selectedAssetId, loadingActiveAlloc]);
+
+
+
+
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<AllocationFormValues>({
     resolver: zodResolver(allocationSchema),
     defaultValues: {

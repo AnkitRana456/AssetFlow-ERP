@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Search, Filter, Plus, ArrowLeftRight, Clock, CheckCircle2, AlertTriangle, 
-  X, HelpCircle, Eye, CornerRightDown, CornerRightUp, User, Ban, ArrowRight,
-  ClipboardList, Image as ImageIcon, Check, Ban as BanIcon
+  Search, Plus, ArrowLeftRight, Clock, AlertTriangle, 
+  X, Eye, CornerRightDown, ArrowRight,
+  ClipboardList, Image as ImageIcon, Check, Ban as BanIcon, Loader2
 } from 'lucide-react';
 import { 
   useAllocations, useTransfers, useReturns,
@@ -26,7 +26,8 @@ export function AllocationDashboardPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [deptFilter, setDeptFilter] = useState('');
   const [catFilter, setCatFilter] = useState('');
-  const [page, setPage] = useState(1);
+  const page = 1;
+
 
   // Drawer / Modals trigger states
   const [isAllocDrawerOpen, setIsAllocDrawerOpen] = useState(false);
@@ -289,8 +290,8 @@ export function AllocationDashboardPage() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-850">
                     {allocationsData?.data?.map((alloc: any) => {
-                      const overdue = alloc.status === 'OVERDUE';
                       return (
+
                         <tr key={alloc._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition-colors">
                           <td className="px-6 py-4 font-bold text-slate-900 dark:text-slate-100">
                             {alloc.asset?.assetTag || 'N/A'}
@@ -393,8 +394,8 @@ export function AllocationDashboardPage() {
                         </div>
                       ) : (
                         filteredTransfers.map((t: any) => {
-                          const requestor = t.requestedBy?.firstName + ' ' + t.requestedBy?.lastName;
                           const sender = t.fromEmployee?.firstName + ' ' + t.fromEmployee?.lastName;
+
                           const receiver = t.toEmployee?.firstName + ' ' + t.toEmployee?.lastName;
 
                           return (

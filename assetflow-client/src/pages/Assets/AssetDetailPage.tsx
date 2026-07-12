@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, Calendar, User, Building2, MapPin, DollarSign, 
-  Wrench, CheckCircle, Clock, FileText, Download, QrCode, 
-  ShieldAlert, Trash2, Edit2, AlertCircle, Sparkles, HelpCircle, HardDrive
+  ArrowLeft, Calendar, User, MapPin, DollarSign, 
+  Clock, FileText, Download, QrCode, 
+  ShieldAlert, Trash2, Edit2, HardDrive
 } from 'lucide-react';
 import { useAssetDetail, useAssetHistory, useDeleteAsset } from '../../hooks/assetHooks';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -22,6 +22,12 @@ export function AssetDetailPage() {
   const { data: asset, isLoading, error } = useAssetDetail(id || '');
   const { data: timeline, isLoading: isTimelineLoading } = useAssetHistory(id || '');
   const deleteMutation = useDeleteAsset();
+
+  const handleOpenEdit = () => {
+    navigate('/assets');
+  };
+
+
 
   if (isLoading) {
     return (
@@ -353,7 +359,7 @@ export function AssetDetailPage() {
           </div>
           <div className="flex gap-2">
             <button
-              onClick={() => handleOpenEdit(asset)}
+              onClick={() => handleOpenEdit()}
               className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors cursor-pointer"
             >
               <Edit2 className="h-3.5 w-3.5" />

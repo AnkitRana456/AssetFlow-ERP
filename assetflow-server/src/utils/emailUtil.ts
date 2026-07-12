@@ -112,3 +112,119 @@ export async function sendPasswordChangedEmail(email: string, name: string): Pro
     html
   });
 }
+
+/**
+ * Send Booking Confirmation Email
+ */
+export async function sendBookingConfirmationEmail(email: string, name: string, booking: any): Promise<void> {
+  const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+      <h2 style="color: #10b981; margin-bottom: 20px;">Booking Confirmed!</h2>
+      <p>Hello ${name},</p>
+      <p>Your request to book the shared resource has been successfully confirmed. Below are the details:</p>
+      <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #10b981;">
+        <p style="margin: 4px 0;"><strong>Resource:</strong> ${booking.resource?.name || 'Shared Asset'}</p>
+        <p style="margin: 4px 0;"><strong>Title:</strong> ${booking.title}</p>
+        <p style="margin: 4px 0;"><strong>Start Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+        <p style="margin: 4px 0;"><strong>End Time:</strong> ${new Date(booking.endTime).toLocaleString()}</p>
+        <p style="margin: 4px 0;"><strong>Priority:</strong> ${booking.priority}</p>
+      </div>
+      <p>Thank you for using AssetFlow ERP.</p>
+      <hr style="margin: 30px 0; border: 0; border-top: 1px solid #e2e8f0;" />
+      <p style="font-size: 12px; color: #94a3b8; text-align: center;">AssetFlow ERP © ${new Date().getFullYear()}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: EMAIL_FROM,
+    to: email,
+    subject: `AssetFlow - Booking Confirmed: ${booking.title}`,
+    html
+  });
+}
+
+/**
+ * Send Booking Cancellation Email
+ */
+export async function sendBookingCancellationEmail(email: string, name: string, booking: any): Promise<void> {
+  const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+      <h2 style="color: #ef4444; margin-bottom: 20px;">Booking Cancelled</h2>
+      <p>Hello ${name},</p>
+      <p>The following booking has been cancelled:</p>
+      <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #ef4444;">
+        <p style="margin: 4px 0;"><strong>Resource:</strong> ${booking.resource?.name || 'Shared Asset'}</p>
+        <p style="margin: 4px 0;"><strong>Title:</strong> ${booking.title}</p>
+        <p style="margin: 4px 0;"><strong>Original Time:</strong> ${new Date(booking.startTime).toLocaleString()} - ${new Date(booking.endTime).toLocaleString()}</p>
+        <p style="margin: 4px 0; color: #ef4444;"><strong>Reason:</strong> ${booking.cancellationReason || 'N/A'}</p>
+      </div>
+      <hr style="margin: 30px 0; border: 0; border-top: 1px solid #e2e8f0;" />
+      <p style="font-size: 12px; color: #94a3b8; text-align: center;">AssetFlow ERP © ${new Date().getFullYear()}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: EMAIL_FROM,
+    to: email,
+    subject: `AssetFlow - Booking Cancelled: ${booking.title}`,
+    html
+  });
+}
+
+/**
+ * Send Booking Rescheduled Email
+ */
+export async function sendBookingRescheduledEmail(email: string, name: string, booking: any): Promise<void> {
+  const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+      <h2 style="color: #3b82f6; margin-bottom: 20px;">Booking Rescheduled</h2>
+      <p>Hello ${name},</p>
+      <p>Your booking has been updated with new schedule details:</p>
+      <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #3b82f6;">
+        <p style="margin: 4px 0;"><strong>Resource:</strong> ${booking.resource?.name || 'Shared Asset'}</p>
+        <p style="margin: 4px 0;"><strong>Title:</strong> ${booking.title}</p>
+        <p style="margin: 4px 0;"><strong>New Start Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+        <p style="margin: 4px 0;"><strong>New End Time:</strong> ${new Date(booking.endTime).toLocaleString()}</p>
+      </div>
+      <hr style="margin: 30px 0; border: 0; border-top: 1px solid #e2e8f0;" />
+      <p style="font-size: 12px; color: #94a3b8; text-align: center;">AssetFlow ERP © ${new Date().getFullYear()}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: EMAIL_FROM,
+    to: email,
+    subject: `AssetFlow - Booking Rescheduled: ${booking.title}`,
+    html
+  });
+}
+
+/**
+ * Send Booking Reminder Email
+ */
+export async function sendBookingReminderEmail(email: string, name: string, booking: any): Promise<void> {
+  const html = `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+      <h2 style="color: #f59e0b; margin-bottom: 20px;">Upcoming Booking Reminder</h2>
+      <p>Hello ${name},</p>
+      <p>This is a reminder that your booking is starting soon:</p>
+      <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #f59e0b;">
+        <p style="margin: 4px 0;"><strong>Resource:</strong> ${booking.resource?.name || 'Shared Asset'}</p>
+        <p style="margin: 4px 0;"><strong>Title:</strong> ${booking.title}</p>
+        <p style="margin: 4px 0;"><strong>Start Time:</strong> ${new Date(booking.startTime).toLocaleString()}</p>
+        <p style="margin: 4px 0;"><strong>End Time:</strong> ${new Date(booking.endTime).toLocaleString()}</p>
+      </div>
+      <p>Please ensure you arrive on time and release the resource promptly when finished.</p>
+      <hr style="margin: 30px 0; border: 0; border-top: 1px solid #e2e8f0;" />
+      <p style="font-size: 12px; color: #94a3b8; text-align: center;">AssetFlow ERP © ${new Date().getFullYear()}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: EMAIL_FROM,
+    to: email,
+    subject: `AssetFlow Reminder: ${booking.title} starts soon`,
+    html
+  });
+}
+

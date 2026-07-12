@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { 
-  Plus, Search, Edit2, Trash2, X, AlertCircle, Laptop, Armchair, 
-  Car, Wrench, Server, Smartphone, Loader2, Sparkles, FolderKanban,
-  FileDown, FileUp, Filter, ArrowUpDown, Calendar, DollarSign, MapPin, CheckCircle
+  Plus, Search, Edit2, Trash2, X, AlertCircle, Laptop,
+  Loader2, Sparkles, FileDown, FileUp, ArrowUpDown, MapPin, CheckCircle
 } from 'lucide-react';
 import { 
   useAssets, useCreateAsset, useUpdateAsset, useDeleteAsset, useImportAssets 
@@ -36,9 +35,7 @@ const assetFormSchema = z.object({
 type AssetFormValues = z.infer<typeof assetFormSchema>;
 
 export function AssetDirectoryPage() {
-  const navigate = useNavigate();
   const { user } = useAuthStore();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const csvImportRef = useRef<HTMLInputElement>(null);
 
   // States
@@ -63,7 +60,7 @@ export function AssetDirectoryPage() {
   const [selectedDocs, setSelectedDocs] = useState<FileList | null>(null);
 
   // Queries & Mutations
-  const { data, isLoading, refetch } = useAssets({
+  const { data, isLoading } = useAssets({
     search, status: statusFilter, department: deptFilter, category: catFilter,
     condition: condFilter, shared: sharedFilter, sortBy, order: sortOrder, page, limit: 8
   });
@@ -77,12 +74,13 @@ export function AssetDirectoryPage() {
   const importMutation = useImportAssets();
 
   // React Hook Form
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<AssetFormValues>({
-    resolver: zodResolver(assetFormSchema),
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<AssetFormValues>({
+    resolver: zodResolver(assetFormSchema) as any,
     defaultValues: {
       condition: 'NEW',
       bookable: false,
       sharedResource: false
+
     }
   });
 
@@ -573,7 +571,7 @@ export function AssetDirectoryPage() {
                 </div>
               )}
 
-              <form id="asset-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-xs sm:text-sm">
+              <form id="asset-form" onSubmit={handleSubmit(onSubmit as any)} className="space-y-4 text-xs sm:text-sm">
                 <div className="grid grid-cols-2 gap-4">
                   {/* Name */}
                   <div className="space-y-1.5 col-span-2">

@@ -100,6 +100,10 @@ const AssetSchema = new Schema<IAsset>(
   { timestamps: true }
 );
 
+// Optimize global full-text search queries
+AssetSchema.index({ name: 'text', serialNumber: 'text', assetTag: 'text', location: 'text' });
+
+
 // Soft Delete Middleware (Query hooks)
 AssetSchema.pre(/^find/, function (this: any, next: any) {
   const query = this;

@@ -6,12 +6,13 @@ import { AssetCategory, CategoryStatus } from '../models/AssetCategory';
 import { Asset, AssetCondition, AssetStatus } from '../models/Asset';
 import { Booking, BookingStatus } from '../models/Booking';
 import { MaintenanceRequest, MaintenancePriority, MaintenanceStatus } from '../models/MaintenanceRequest';
-import { AuditCycle, AuditCycleStatus } from '../models/AuditCycle';
+import { AuditCycle, AuditCycleStatus, AuditCycleType, AuditPriority } from '../models/AuditCycle';
 import { AuditItem, AuditVerificationStatus } from '../models/AuditItem';
 import { Notification, NotificationType } from '../models/Notification';
 import { ActivityLog } from '../models/ActivityLog';
 import { RefreshToken } from '../models/RefreshToken';
 import { hashPassword } from '../utils/passwordUtil';
+
 
 dotenv.config();
 
@@ -197,14 +198,16 @@ async function seed() {
     // 5. Seed Bookings
     console.log('Seeding bookings...');
     const booking1 = await Booking.create({
+      title: 'Customer demonstration deployment',
       resource: laptop1._id,
       bookedBy: employeeUser._id,
       department: hrDept._id,
       startTime: new Date(Date.now() + 3600000 * 2), // 2 hours from now
       endTime: new Date(Date.now() + 3600000 * 4), // 4 hours from now
-      purpose: 'Customer demonstration deployment',
+      date: new Date(Date.now() + 3600000 * 2),
       status: BookingStatus.UPCOMING
     });
+
 
     // 6. Seed Maintenance Request
     console.log('Seeding maintenance requests...');
@@ -220,9 +223,12 @@ async function seed() {
     console.log('Seeding audit cycle...');
     const auditCycle = await AuditCycle.create({
       title: 'Q2 2026 Hardware Audit',
+      description: 'Audit campaign for IT equipment in Building A',
+      type: AuditCycleType.DEPARTMENT,
       department: itDept._id,
       location: 'Building A',
       auditors: [adminUser._id],
+      priority: AuditPriority.MEDIUM,
       startDate: new Date(),
       endDate: new Date(Date.now() + 86400000 * 5), // 5 days from now
       status: AuditCycleStatus.IN_PROGRESS
@@ -233,8 +239,9 @@ async function seed() {
       asset: laptop1._id,
       auditor: adminUser._id,
       verificationStatus: AuditVerificationStatus.VERIFIED,
-      remarks: 'Verified asset condition EXCELLENT'
+      auditorNotes: 'Verified asset condition EXCELLENT'
     });
+
 
     // 8. Seed Notification
     console.log('Seeding notifications...');

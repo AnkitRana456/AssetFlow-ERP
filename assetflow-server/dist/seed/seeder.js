@@ -184,12 +184,13 @@ async function seed() {
         // 5. Seed Bookings
         console.log('Seeding bookings...');
         const booking1 = await Booking_1.Booking.create({
+            title: 'Customer demonstration deployment',
             resource: laptop1._id,
             bookedBy: employeeUser._id,
             department: hrDept._id,
             startTime: new Date(Date.now() + 3600000 * 2), // 2 hours from now
             endTime: new Date(Date.now() + 3600000 * 4), // 4 hours from now
-            purpose: 'Customer demonstration deployment',
+            date: new Date(Date.now() + 3600000 * 2),
             status: Booking_1.BookingStatus.UPCOMING
         });
         // 6. Seed Maintenance Request
@@ -205,9 +206,12 @@ async function seed() {
         console.log('Seeding audit cycle...');
         const auditCycle = await AuditCycle_1.AuditCycle.create({
             title: 'Q2 2026 Hardware Audit',
+            description: 'Audit campaign for IT equipment in Building A',
+            type: AuditCycle_1.AuditCycleType.DEPARTMENT,
             department: itDept._id,
             location: 'Building A',
             auditors: [adminUser._id],
+            priority: AuditCycle_1.AuditPriority.MEDIUM,
             startDate: new Date(),
             endDate: new Date(Date.now() + 86400000 * 5), // 5 days from now
             status: AuditCycle_1.AuditCycleStatus.IN_PROGRESS
@@ -217,7 +221,7 @@ async function seed() {
             asset: laptop1._id,
             auditor: adminUser._id,
             verificationStatus: AuditItem_1.AuditVerificationStatus.VERIFIED,
-            remarks: 'Verified asset condition EXCELLENT'
+            auditorNotes: 'Verified asset condition EXCELLENT'
         });
         // 8. Seed Notification
         console.log('Seeding notifications...');

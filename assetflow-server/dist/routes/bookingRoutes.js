@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const bookingController_1 = require("../controllers/bookingController");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const validationMiddleware_1 = require("../middlewares/validationMiddleware");
+const bookingValidator_1 = require("../validators/bookingValidator");
+const router = (0, express_1.Router)();
+// Secure all booking paths with standard auth check
+router.use(authMiddleware_1.authenticate, authMiddleware_1.checkActive);
+router.get('/', bookingController_1.getBookings);
+router.get('/calendar', bookingController_1.getBookingCalendar);
+router.get('/availability', bookingController_1.getResourceAvailability);
+router.get('/history', bookingController_1.getBookingHistory);
+router.post('/', bookingValidator_1.validateBooking, validationMiddleware_1.validateRequest, bookingController_1.createBooking);
+router.post('/reschedule', bookingValidator_1.validateReschedule, validationMiddleware_1.validateRequest, bookingController_1.rescheduleBooking);
+router.get('/:id', bookingController_1.getBookingById);
+router.patch('/:id', bookingValidator_1.validateBooking, validationMiddleware_1.validateRequest, bookingController_1.updateBooking);
+router.delete('/:id', bookingController_1.deleteBooking);
+exports.default = router;

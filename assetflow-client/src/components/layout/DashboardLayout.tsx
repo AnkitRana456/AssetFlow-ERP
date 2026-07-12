@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../sidebar/Sidebar';
 import { Navbar } from '../navbar/Navbar';
 import { useSocketSetup } from '../../hooks/useSocket';
+import { AiChatBot } from '../ai/AiChatBot';
+import { LoadingSkeleton } from '../common/LoadingSkeleton';
 
 export function DashboardLayout() {
   // Setup real-time WebSocket listeners
   useSocketSetup();
 
   const [darkMode, setDarkMode] = useState(() => {
-
     return localStorage.getItem('theme') === 'dark' || 
       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });
@@ -38,10 +39,17 @@ export function DashboardLayout() {
         {/* Scrollable Page Wrapper */}
         <main className="flex-1 overflow-y-auto p-6 focus:outline-none">
           <div className="max-w-7xl mx-auto space-y-6">
-            <Outlet />
+            <Suspense fallback={<LoadingSkeleton type="table" count={5} />}>
+              <Outlet />
+            </Suspense>
           </div>
         </main>
       </div>
+
+      {/* Floating AI Assistant */}
+      <AiChatBot />
     </div>
   );
 }
+
+

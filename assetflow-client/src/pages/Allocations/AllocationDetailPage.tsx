@@ -1,11 +1,12 @@
-import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, Calendar, User, Building, Info, FileText, CheckCircle2, 
-  Clock, AlertTriangle, ArrowRightLeft, CornerRightDown, ShieldCheck,
-  Plus, Settings, Cpu, HardDrive
+  ArrowLeft, User, Info, CheckCircle2, 
+  Clock, AlertTriangle, ArrowRightLeft, CornerRightDown,
+  Plus, Cpu
 } from 'lucide-react';
+
+
 import { useAllocationDetail, useAssetTimeline } from '../../hooks/allocationHooks';
 
 export function AllocationDetailPage() {

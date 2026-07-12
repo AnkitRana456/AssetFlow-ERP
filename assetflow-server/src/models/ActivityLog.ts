@@ -28,5 +28,9 @@ const ActivityLogSchema = new Schema<IActivityLog>(
   }
 );
 
+// Optimize audit log dashboard historical queries and sort orders
+ActivityLogSchema.index({ module: 1, action: 1, createdAt: -1 });
+
+
 export const ActivityLog = model<IActivityLog>('ActivityLog', ActivityLogSchema);
 export { ActivityLogSchema };

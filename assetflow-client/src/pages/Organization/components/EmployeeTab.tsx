@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { 
-  Search, ShieldAlert, Award, Loader2, Sparkles, X, User, 
+  Search, Award, Loader2, X, ShieldAlert,
   Building2, Power, Briefcase, Mail, Phone, Calendar
 } from 'lucide-react';
+
 import { useEmployees, useUpdateEmployee, usePromoteEmployee, useUpdateEmployeeStatus, useDepartments } from '../../../hooks/orgHooks';
+
 
 // Validation Schema for Promotion
 const promotionSchema = z.object({
@@ -32,7 +34,8 @@ export function EmployeeTab() {
   const [deptFilter, setDeptFilter] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  const [page, setPage] = useState(1);
+  const page = 1;
+
 
   // Modals / Drawers states
   const [selectedEmployee, setSelectedEmployee] = useState<any | null>(null);

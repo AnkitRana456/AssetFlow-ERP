@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import compression from 'compression';
 import dotenv from 'dotenv';
 import apiRouter from './routes';
 import { errorHandler } from './middlewares';
@@ -10,6 +12,8 @@ dotenv.config();
 const app = express();
 
 // Standard middleware
+app.use(helmet());
+app.use(compression());
 app.use(
   cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
@@ -19,6 +23,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // API Routing
 app.use('/api', apiRouter);

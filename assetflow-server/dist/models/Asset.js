@@ -62,6 +62,8 @@ const AssetSchema = new mongoose_1.Schema({
     deletedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 exports.AssetSchema = AssetSchema;
+// Optimize global full-text search queries
+AssetSchema.index({ name: 'text', serialNumber: 'text', assetTag: 'text', location: 'text' });
 // Soft Delete Middleware (Query hooks)
 AssetSchema.pre(/^find/, function (next) {
     const query = this;

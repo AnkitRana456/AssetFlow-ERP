@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  assetflow-server:
+    build:
+      context: ./assetflow-server
+      dockerfile: Dockerfile
+    container_name: assetflow-server
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:2717/assetflow
+      - JWT_SECRET=supersecretproductionjwtemergencykey1234!
+      - GEMINI_API_KEY=dummy_api_key_for_compose_replace
+      - CLIENT_URL=http://localhost
+      - EMAIL_HOST=smtp.mailtrap.io
+      - EMAIL_PORT=2525
+      - EMAIL_USER=dummy
+      - EMAIL_PASS=dummy
+      - CLOUDINARY_CLOUD_NAME=dummy
+      - CLOUDINARY_API_KEY=dummy
+      - CLOUDINARY_API_SECRET=dummy
+    depends_on:
+      - mongodb
+    networks:
+      - assetflow-network
+
+  assetflow-client:
+    build:
+      context: ./assetflow-client
+      dockerfile: Dockerfile
+    container_name: assetflow-client
+    ports:
+      - "80:80"
+    depends_on:
+      - assetflow-server
+    networks:
+      - assetflow-network
+
+  mongodb:
+    image: mongo:6-jammy
+    container_name: assetflow-mongodb
+    ports:
+      - "2717:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - assetflow-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  assetflow-network:
+    driver: bridge
